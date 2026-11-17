@@ -3,7 +3,7 @@
 > Auto-generate draft **OSCAL 1.1.2 System Security Plans** from Terraform state or AWS resource inventories — mapped to the **FedRAMP Moderate** baseline (NIST SP 800-53 Rev 5).
 
 [![CI](https://github.com/JulietRodriguez/oscal-ssp-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/JulietRodriguez/oscal-ssp-generator/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![OSCAL](https://img.shields.io/badge/OSCAL-1.1.2-7c3aed.svg)](https://pages.nist.gov/OSCAL/)
 [![Baseline](https://img.shields.io/badge/FedRAMP-Moderate-22c55e.svg)](https://www.fedramp.gov/)
 [![NIST 800-53](https://img.shields.io/badge/NIST_800--53-Rev_5-0ea5e9.svg)](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)
@@ -40,12 +40,12 @@ engineers refine, not a rubber stamp.
 | Capability | Description |
 | --- | --- |
 | 🧩 **Dual input formats** | Parse a Terraform `*.tfstate` file or a simple JSON AWS inventory — format auto-detected. |
-| 📄 **OSCAL 1.1.2 output** | Emits a compliant `system-security-plan` with metadata, system characteristics, system implementation, **system information**, and control implementation. |
-| 🎯 **FedRAMP Moderate mapping** | 28+ AWS resource types mapped to NIST 800-53 Rev 5 controls, with always-required controls surfaced as *planned* when no resource satisfies them. |
+| 📄 **OSCAL 1.1.2 output** | Emits a `system-security-plan` (validated in CI against NIST's official OSCAL 1.1.2 SSP schema) with metadata, system characteristics, system implementation, **system information**, and control implementation. |
+| 🎯 **FedRAMP Moderate mapping** | 29 AWS resource types mapped to 27 NIST 800-53 Rev 5 controls from the FedRAMP Moderate baseline (a subset of its 323 controls), with 8 always-required controls surfaced as *planned* when no resource satisfies them. |
 | 🖥️ **Rich CLI** | Color terminal summary of resources and control coverage, plus JSON export. |
 | 📊 **Streamlit dashboard** | Dark, security-tool styled UI to upload inventory, inspect coverage, and download the SSP. |
 | 🔁 **Deterministic UUIDs** | Stable `uuid5`-based identifiers so re-runs diff cleanly in git. |
-| ✅ **Tested & CI'd** | Full pytest suite + GitHub Actions matrix across Python 3.9–3.12. |
+| ✅ **Tested & CI'd** | Full pytest suite + GitHub Actions matrix across Python 3.10–3.13. |
 
 ## 🏗️ Architecture
 
@@ -182,7 +182,7 @@ pytest                       # run the suite
 pytest --cov=oscal_ssp_generator --cov-report=term-missing
 ```
 
-CI runs the suite plus a CLI smoke test across Python 3.9–3.12 via
+CI runs the suite plus a CLI smoke test across Python 3.10–3.13 via
 [GitHub Actions](.github/workflows/ci.yml).
 
 ## ⚠️ Disclaimer

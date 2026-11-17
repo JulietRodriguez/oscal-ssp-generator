@@ -79,3 +79,30 @@ def test_summarize(tfstate_path):
     assert summary["resource_count"] == 10
     assert "SC-28" in summary["controls_satisfied"]
     assert isinstance(summary["controls_planned"], list)
+
+
+def test_statements_use_only_ssp_statement_fields():
+    """OSCAL 1.1.2 SSP statements allow statement-id, uuid, props, links,
+    by-components and remarks, but not description (NIST schema rejects it)."""
+    from pathlib import Path
+
+    allowed = {"statement-id", "uuid", "props", "links", "by-components", "remarks"}
+    examples = Path(__file__).resolve().parent.parent / "examples"
+    for name in ("terraform.tfstate", "aws_inventory.json"):
+        ssp = generate_ssp(parse(examples / name))
+        reqs = ssp["system-security-plan"]["control-implementation"]["implemented-requirements"]
+        for req in reqs:
+            for stmt in req.get("statements", []):
+                assert set(stmt) <= allowed, set(stmt) - allowed
+
+
+def test_scope_numbers_quoted_in_readme():
+    from oscal_ssp_generator.controls import (
+        ALWAYS_REQUIRED_CONTROLS,
+        RESOURCE_CONTROL_MAP,
+    )
+
+    mapped = {c for controls in RESOURCE_CONTROL_MAP.values() for c in controls}
+    assert len(RESOURCE_CONTROL_MAP) == 29
+    assert len(mapped | set(ALWAYS_REQUIRED_CONTROLS)) == 27
+    assert len(ALWAYS_REQUIRED_CONTROLS) == 8
