@@ -40,8 +40,8 @@ engineers refine, not a rubber stamp.
 | Capability | Description |
 | --- | --- |
 | 🧩 **Dual input formats** | Parse a Terraform `*.tfstate` file or a simple JSON AWS inventory — format auto-detected. |
-| 📄 **OSCAL 1.1.2 output** | Emits a compliant `system-security-plan` with metadata, system characteristics, system implementation, **system information**, and control implementation. |
-| 🎯 **FedRAMP Moderate mapping** | 28+ AWS resource types mapped to NIST 800-53 Rev 5 controls, with always-required controls surfaced as *planned* when no resource satisfies them. |
+| 📄 **OSCAL 1.1.2 output** | Emits a `system-security-plan` (validated in CI against NIST's official OSCAL 1.1.2 SSP schema) with metadata, system characteristics, system implementation, **system information**, and control implementation. |
+| 🎯 **FedRAMP Moderate mapping** | 29 AWS resource types mapped to 27 NIST 800-53 Rev 5 controls from the FedRAMP Moderate baseline (a subset of its 323 controls), with 8 always-required controls surfaced as *planned* when no resource satisfies them. |
 | 🖥️ **Rich CLI** | Color terminal summary of resources and control coverage, plus JSON export. |
 | 📊 **Streamlit dashboard** | Dark, security-tool styled UI to upload inventory, inspect coverage, and download the SSP. |
 | 🔁 **Deterministic UUIDs** | Stable `uuid5`-based identifiers so re-runs diff cleanly in git. |

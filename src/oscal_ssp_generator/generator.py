@@ -212,7 +212,7 @@ def _implemented_requirements(inventory: Inventory) -> List[dict]:
                     {
                         "statement-id": f"{control_id}_smt",
                         "uuid": _uuid_for("statement", control_id),
-                        "description": statement,
+                        "remarks": statement,
                     }
                 ],
                 "by-components": [
@@ -238,7 +238,7 @@ def _implemented_requirements(inventory: Inventory) -> List[dict]:
                     {
                         "statement-id": f"{control_id}_smt",
                         "uuid": _uuid_for("statement", control_id),
-                        "description": (
+                        "remarks": (
                             f"No resource in the inventory currently satisfies this "
                             f"required control ({control_title(control_id)}). "
                             f"Implementation is planned."

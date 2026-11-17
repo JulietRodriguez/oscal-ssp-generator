@@ -49,3 +49,27 @@ jobs:
         run: |
           python -c "import json; json.load(open('examples/terraform.tfstate'))"
           python -c "import json; json.load(open('examples/aws_inventory.json'))"
+
+  oscal-schema:
+    name: Validate OSCAL output against NIST schema
+    runs-on: ubuntu-latest
+    env:
+      # NIST OSCAL v1.1.2 SSP schema, pinned by SHA-256.
+      OSCAL_SCHEMA_URL: https://github.com/usnistgov/OSCAL/releases/download/v1.1.2/oscal_ssp_schema.json
+      OSCAL_SCHEMA_SHA256: 08d3faeb12f0fab7705dec15fb648c72400c7ab6ac0056222d49d21507e02a69
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e . jsonschema
+      - name: Download schema
+        run: |
+          mkdir -p schemas
+          curl -sSfL "$OSCAL_SCHEMA_URL" -o schemas/oscal_ssp_schema.json
+          echo "$OSCAL_SCHEMA_SHA256  schemas/oscal_ssp_schema.json" | sha256sum -c -
+      - name: Validate the SSP generated from each example
+        run: |
+          oscal-ssp-generator examples/terraform.tfstate -o /tmp/ssp_tf.json --no-banner
+          oscal-ssp-generator examples/aws_inventory.json -o /tmp/ssp_inv.json --no-banner
+          python tools/validate_oscal.py --schema schemas/oscal_ssp_schema.json /tmp/ssp_tf.json /tmp/ssp_inv.json
